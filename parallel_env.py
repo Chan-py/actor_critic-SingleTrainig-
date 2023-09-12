@@ -99,11 +99,11 @@ def worker(remote, parent_remote, worker_id):
             data = data.item()
             assert data in np.arange(4)
 
-            data = action_dict[data]
-            a = np.random.randint(0, 3)
+            # data = action_dict[data]
+            a = np.random.randint(0, 4)
 
-            action_tuple0 = ActionTuple(np.array([[]], dtype=np.float32), np.array([[data]], dtype=np.int32))
-            action_tuple1 = ActionTuple(np.array([[]], dtype=np.float32), np.array([[action_dict[a]]], dtype=np.int32))
+            action_tuple0 = ActionTuple(np.array([[]], dtype=np.float32), np.array([[data + 1]], dtype=np.int32))
+            action_tuple1 = ActionTuple(np.array([[]], dtype=np.float32), np.array([[a+1]], dtype=np.int32))
 
             env.set_action_for_agent(behavior_name, 0, action_tuple0)
             env.set_action_for_agent(behavior_name, 1, action_tuple1)
