@@ -123,9 +123,11 @@ class ActorCritic(nn.Module):
         all_observations = []
 
         envs.reset()
-        obss, _, _ = envs.step(np.zeros(n))
+        obss, _, dones = envs.step(np.zeros(n))
 
-        for _ in range(199):
+        for _ in range(119):
+            if np.any(dones):
+                envs.reset()
             obss = torch.FloatTensor(obss).to(device)
             all_observations.append(obss)
             outputs_ac = self(obss)
@@ -137,8 +139,8 @@ class ActorCritic(nn.Module):
             all_rewards.append(torch.tensor(step_rewards).reshape(-1, 1))
             all_ends.append(torch.tensor(dones).reshape(-1, 1))
 
-            if np.any(dones):
-                envs.reset()
+        if np.any(dones):
+            envs.reset()
 
         self.clear()
 
